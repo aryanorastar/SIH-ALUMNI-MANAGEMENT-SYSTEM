@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Board - Alum Forge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        /* Header */
+        .header {
+            background-color: #800000;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .dropdown-toggle i {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-toggle i {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #800000;
+            min-width: 200px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            padding: 0.5rem 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            margin: 0;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            border-radius: 0;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        .login-link {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-link:hover {
+            background-color: #ff5252;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Coming Soon Banner */
+        .coming-soon-banner {
+            background-color: #800000;
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(128, 0, 0, 0.3);
+        }
+
+        .banner-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .banner-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .banner-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .banner-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Job Categories Preview */
+        .job-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            color: #800000;
+            margin-bottom: 1rem;
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .category-count {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Sample Jobs Preview */
+        .sample-jobs {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .job-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .job-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .job-card:hover {
+            border-color: #800000;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-company {
+            color: #800000;
+            font-weight: 500;
+        }
+
+        .job-type {
+            background-color: #f0f0f0;
+            color: #666;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .job-location {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .job-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .job-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-tag {
+            background-color: #ffe8e8;
+            color: #800000;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .job-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .apply-btn {
+            flex: 1;
+            background-color: #800000;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .save-btn {
+            background: none;
+            border: 2px solid #e0e0e0;
+            color: #666;
+            padding: 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            border-color: #800000;
+            color: #800000;
+        }
+
+        /* Newsletter Signup */
+        .newsletter-signup {
+            background-color: #800000;
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .newsletter-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .newsletter-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-btn:hover {
+            background-color: #555;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #800000;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #800000;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #800000;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: #a00000;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #555;
+            color: #ccc;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .banner-features {
+                grid-template-columns: 1fr;
+            }
+
+            .job-categories {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Alum Forge</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="announcements.html">Announcements</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Community <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="profiles.html">Alumni Profiles</a></li>
+                            <li><a href="campus-feed.html">Campus Feed</a></li>
+                            <li><a href="messaging.html">Messaging</a></li>
+                            <li><a href="memories.html">Memories</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Resources <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="job-board.html" class="active">Job Board</a></li>
+                            <li><a href="newsletters.html">Newsletters</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <a href="login.html" class="login-link" id="loginLink">Login</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Job Board</h1>
+            <p class="page-subtitle">Discover career opportunities from alumni and partner companies</p>
+        </div>
+
+        <!-- Coming Soon Banner -->
+        <div class="coming-soon-banner">
+            <div class="banner-icon">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <h2 class="banner-title">Coming Soon!</h2>
+            <p class="banner-subtitle">We're building an exclusive job board for our alumni community</p>
+            
+            <div class="banner-features">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="feature-title">Smart Job Search</div>
+                    <div class="feature-description">Advanced filtering by industry, location, experience level, and more</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="feature-title">Alumni Network</div>
+                    <div class="feature-description">Jobs posted by fellow alumni and partner companies</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="feature-title">Job Alerts</div>
+                    <div class="feature-description">Get notified about new opportunities matching your profile</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="feature-title">Direct Applications</div>
+                    <div class="feature-description">Apply directly through our platform with your alumni profile</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Categories Preview -->
+        <div class="job-categories">
+            <div class="category-card" onclick="showCategory('technology')">
+                <div class="category-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="category-title">Technology</div>
+                <div class="category-count">Coming Soon</div>
+            </div>
+            <div class="category-card" onclick="showCategory('finance')">
+                <div class="category-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="category-title">Finance</div>
+                <div class="category-count">Coming Soon</div>
+            </div>
+            <div class="category-card" onclick="showCategory('healthcare')">
+                <div class="category-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="category-title">Healthcare</div>
+                <div class="category-count">Coming Soon</div>
+            </div>
+            <div class="category-card" onclick="showCategory('education')">
+                <div class="category-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="category-title">Education</div>
+                <div class="category-count">Coming Soon</div>
+            </div>
+            <div class="category-card" onclick="showCategory('consulting')">
+                <div class="category-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="category-title">Consulting</div>
+                <div class="category-count">Coming Soon</div>
+            </div>
+            <div class="category-card" onclick="showCategory('startups')">
+                <div class="category-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="category-title">Startups</div>
+                <div class="category-count">Coming Soon</div>
+            </div>
+        </div>
+
+        <!-- Sample Jobs Preview -->
+        <div class="sample-jobs">
+            <h2 class="section-title">Featured Opportunities (Preview)</h2>
+            <div class="job-preview">
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-title">Senior Software Engineer</div>
+                            <div class="job-company">Google</div>
+                        </div>
+                        <div class="job-type">Full-time</div>
+                    </div>
+                    <div class="job-location">
+                        <i class="fas fa-map-marker-alt"></i> San Francisco, CA
+                    </div>
+                    <div class="job-description">
+                        Join our team to build scalable web applications using cutting-edge technologies. 
+                        Work with a talented team of engineers in a collaborative environment.
+                    </div>
+                    <div class="job-skills">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">AWS</span>
+                    </div>
+                    <div class="job-actions">
+                        <button class="apply-btn" onclick="applyJob('senior-software-engineer')">Apply Now</button>
+                        <button class="save-btn" onclick="saveJob('senior-software-engineer')">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-title">Product Manager</div>
+                            <div class="job-company">Microsoft</div>
+                        </div>
+                        <div class="job-type">Full-time</div>
+                    </div>
+                    <div class="job-location">
+                        <i class="fas fa-map-marker-alt"></i> Seattle, WA
+                    </div>
+                    <div class="job-description">
+                        Lead product strategy and development for our cloud services platform. 
+                        Work closely with engineering and design teams to deliver exceptional user experiences.
+                    </div>
+                    <div class="job-skills">
+                        <span class="skill-tag">Product Management</span>
+                        <span class="skill-tag">Agile</span>
+                        <span class="skill-tag">Data Analysis</span>
+                        <span class="skill-tag">Leadership</span>
+                    </div>
+                    <div class="job-actions">
+                        <button class="apply-btn" onclick="applyJob('product-manager')">Apply Now</button>
+                        <button class="save-btn" onclick="saveJob('product-manager')">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-title">Data Scientist</div>
+                            <div class="job-company">Netflix</div>
+                        </div>
+                        <div class="job-type">Full-time</div>
+                    </div>
+                    <div class="job-location">
+                        <i class="fas fa-map-marker-alt"></i> Los Gatos, CA
+                    </div>
+                    <div class="job-description">
+                        Analyze large datasets to drive business insights and improve user experience. 
+                        Work with machine learning models and statistical analysis.
+                    </div>
+                    <div class="job-skills">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Machine Learning</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">Statistics</span>
+                    </div>
+                    <div class="job-actions">
+                        <button class="apply-btn" onclick="applyJob('data-scientist')">Apply Now</button>
+                        <button class="save-btn" onclick="saveJob('data-scientist')">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Newsletter Signup -->
+        <div class="newsletter-signup">
+            <h2 class="newsletter-title">Get Notified When We Launch!</h2>
+            <p class="newsletter-subtitle">Be the first to know when our job board goes live and start applying to exclusive opportunities</p>
+            <form class="newsletter-form" id="newsletterForm">
+                <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                <button type="submit" class="newsletter-btn">Notify Me</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Alum Forge</h3>
+                <p>Connecting alumni worldwide, fostering lifelong relationships, and building a stronger community together.</p>
+                <div class="social-links">
+                    <a href="#" onclick="handleSocialClick('facebook')"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" onclick="handleSocialClick('twitter')"><i class="fab fa-twitter"></i></a>
+                    <a href="#" onclick="handleSocialClick('linkedin')"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" onclick="handleSocialClick('instagram')"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="announcements.html">Announcements</a></li>
+                    <li><a href="profiles.html">Profiles</a></li>
+                    <li><a href="campus-feed.html">Campus Feed</a></li>
+                    <li><a href="job-board.html">Job Board</a></li>
+                    <li><a href="messaging.html">Messaging</a></li>
+                    <li><a href="newsletters.html">Newsletters</a></li>
+                    <li><a href="memories.html">Memories</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#" onclick="handleGiveBack()">Give Back</a></li>
+                    <li><a href="#" onclick="handleGiveBack()">Mentorship</a></li>
+                    <li><a href="#" onclick="handleGiveBack()">Career Services</a></li>
+                    <li><a href="#" onclick="handleGiveBack()">Alumni Directory</a></li>
+                    <li><a href="#" onclick="handleGiveBack()">Scholarships</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-envelope"></i> info@alumforge.com</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 University Ave, City, State 12345</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Alum Forge. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            checkAuthentication();
+            
+            // Add event listeners
+            document.getElementById('newsletterForm').addEventListener('submit', handleNewsletterSubmit);
+        });
+
+        // Authentication check
+        function checkAuthentication() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const userAddress = localStorage.getItem('userAddress');
+            
+            if (!isLoggedIn || !userAddress) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Update login link to show disconnect
+            const loginLink = document.getElementById('loginLink');
+            loginLink.textContent = 'Disconnect Wallet';
+            loginLink.href = '#';
+            loginLink.onclick = function(e) {
+                e.preventDefault();
+                logout();
+            };
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userAddress');
+            localStorage.removeItem('loginMethod');
+            window.location.href = 'login.html';
+        }
+
+        // Show category
+        function showCategory(category) {
+            alert(`The ${category} job category will be available when we launch!`);
+        }
+
+        // Apply for job
+        function applyJob(jobId) {
+            alert('Job application feature will be available when we launch! You can contact the company directly for now.');
+        }
+
+        // Save job
+        function saveJob(jobId) {
+            alert('Job saved! This feature will be available when we launch.');
+        }
+
+        // Handle newsletter submission
+        function handleNewsletterSubmit(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            alert(`Thank you for subscribing! We'll notify you at ${email} when our job board launches.`);
+            e.target.reset();
+        }
+
+        // Handle give back
+        function handleGiveBack() {
+            alert('Thank you for your interest in giving back! This feature will be available soon.');
+        }
+
+        // Handle social click
+        function handleSocialClick(platform) {
+            alert(`Redirecting to our ${platform} page...`);
+        }
+    </script>
+</body>
+</html>

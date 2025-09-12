@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Alum Forge</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* Reset */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+          line-height: 1.6;
+          background-color: #fff;
+          color: #333;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navbar */
+        .navbar {
+          background-color: #800000; /* dark red */
+          color: #fff;
+          padding: 0.8rem 2rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+        }
+        
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar .logo img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+        }
+        
+        .navbar .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar ul {
+          list-style: none;
+          display: flex;
+          gap: 1.5rem;
+        }
+
+        .navbar ul li a {
+          color: #fff;
+          text-decoration: none;
+          font-weight: bold;
+        }
+
+        .navbar ul li a:hover {
+          text-decoration: underline;
+        }
+
+        .navbar ul li a.active {
+          text-decoration: underline;
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+          position: relative;
+        }
+
+        .dropdown-toggle {
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+        }
+
+        .dropdown-toggle i {
+          font-size: 0.8rem;
+          transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-toggle i {
+          transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          background-color: #800000;
+          min-width: 200px;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          border-radius: 5px;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-10px);
+          transition: all 0.3s ease;
+          z-index: 1000;
+          padding: 0.5rem 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+          margin: 0;
+        }
+
+        .dropdown-menu li a {
+          display: block;
+          padding: 0.8rem 1.5rem;
+          color: white;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+          border-radius: 0;
+        }
+
+        .dropdown-menu li a:hover {
+          background-color: rgba(255,255,255,0.2);
+          color: #fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #800000 0%, #a00000 100%);
+            color: #fff;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 0;
+        }
+
+        /* Contact Info Section */
+        .contact-info {
+            background: #f4f4f4;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .contact-details h3 {
+            color: #800000;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .contact-item i {
+            font-size: 2rem;
+            color: #800000;
+            margin-right: 1.5rem;
+            width: 50px;
+            text-align: center;
+        }
+
+        .contact-item-content h4 {
+            color: #800000;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item-content p {
+            color: #666;
+            margin: 0;
+        }
+
+        .contact-item-content a {
+            color: #800000;
+            text-decoration: none;
+        }
+
+        .contact-item-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Contact Form Section */
+        .contact-form {
+            background: #fff;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f4f4f4;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #800000;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #800000;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #800000;
+            color: #fff;
+            padding: 0.75rem 2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #600000;
+        }
+
+        .btn.secondary {
+            background: #f5d142;
+            color: #000;
+        }
+
+        .btn.secondary:hover {
+            background: #e0c030;
+        }
+
+        /* Office Hours Section */
+        .office-hours {
+            background: #f4f4f4;
+        }
+
+        .hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .hours-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .hours-card i {
+            font-size: 3rem;
+            color: #800000;
+            margin-bottom: 1rem;
+        }
+
+        .hours-card h3 {
+            color: #800000;
+            margin-bottom: 1rem;
+        }
+
+        .hours-card p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        /* FAQ Section */
+        .faq {
+            background: #fff;
+        }
+
+        .faq-item {
+            background: #f4f4f4;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: #800000;
+            color: #fff;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .faq-question:hover {
+            background: #600000;
+        }
+
+        .faq-answer {
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Map Section */
+        .map-section {
+            background: #f4f4f4;
+        }
+
+        .map-container {
+            height: 400px;
+            background: #ddd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: #800000;
+            color: #fff;
+            text-align: center;
+        }
+
+        .cta h2 { 
+            color: #fff; 
+        }
+
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .cta .btn {
+            background: #f5d142;
+            color: #000;
+        }
+
+        .cta .btn:hover {
+            background: #e0c030;
+        }
+
+        /* Footer */
+        .footer {
+          background: #333;
+          color: #fff;
+          padding: 3rem 0 1rem 0;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #f5d142;
+        }
+        .footer-col p, .footer-col ul li {
+            margin-bottom: 0.5rem;
+        }
+        .footer-col a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .footer-col a:hover {
+            text-decoration: underline;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .social-links a {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            .navbar .logo {
+                margin-bottom: 1rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .form-container {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://i.ibb.co/WWHPvcJM/alum-forge-logo.jpg" alt="Alum Forge Logo">
+            <span>Alum Forge</span>
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="announcements.html">Announcements</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Community <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="profiles.html">Alumni Profiles</a></li>
+                    <li><a href="campus-feed.html">Campus Feed</a></li>
+                    <li><a href="messaging.html">Messaging</a></li>
+                    <li><a href="memories.html">Memories</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Resources <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="job-board.html">Job Board</a></li>
+                    <li><a href="newsletters.html">Newsletters</a></li>
+                </ul>
+            </li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="container">
+                <h1>Get In Touch</h1>
+                <p>We'd love to hear from you. Reach out to us for any questions, suggestions, or to get involved with our community.</p>
+            </div>
+        </section>
+
+        <!-- CONTACT INFO SECTION -->
+        <section class="contact-info">
+            <div class="container">
+                <h2>Contact Information</h2>
+                <div class="contact-grid">
+                    <div class="contact-details">
+                        <h3>Get In Touch</h3>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="contact-item-content">
+                                <h4>Office Address</h4>
+                                <p>Thapar University<br>
+                                Patiala, Punjab 147004<br>
+                                India</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div class="contact-item-content">
+                                <h4>Phone</h4>
+                                <p><a href="tel:+911234567890">+91 123 456 7890</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div class="contact-item-content">
+                                <h4>Email</h4>
+                                <p><a href="mailto:contact@alumforge.com">contact@alumforge.com</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div class="contact-item-content">
+                                <h4>Office Hours</h4>
+                                <p>Monday - Friday: 9:00 AM - 6:00 PM<br>
+                                Saturday: 10:00 AM - 4:00 PM<br>
+                                Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Quick Contact</h3>
+                        <form class="form-container">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name *</label>
+                                    <input type="text" id="firstName" name="firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name *</label>
+                                    <input type="text" id="lastName" name="lastName" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject *</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="events">Events</option>
+                                    <option value="membership">Membership</option>
+                                    <option value="support">Technical Support</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message *</label>
+                                <textarea id="message" name="message" placeholder="Tell us how we can help you..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OFFICE HOURS SECTION -->
+        <section class="office-hours">
+            <div class="container">
+                <h2>Office Hours & Departments</h2>
+                <div class="hours-grid">
+                    <div class="hours-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Membership Services</h3>
+                        <p>Monday - Friday</p>
+                        <p>9:00 AM - 5:00 PM</p>
+                        <p>membership@alumforge.com</p>
+                    </div>
+                    <div class="hours-card">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h3>Events Department</h3>
+                        <p>Monday - Friday</p>
+                        <p>10:00 AM - 6:00 PM</p>
+                        <p>events@alumforge.com</p>
+                    </div>
+                    <div class="hours-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Student Relations</h3>
+                        <p>Monday - Friday</p>
+                        <p>9:00 AM - 4:00 PM</p>
+                        <p>students@alumforge.com</p>
+                    </div>
+                    <div class="hours-card">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Partnerships</h3>
+                        <p>Monday - Friday</p>
+                        <p>10:00 AM - 5:00 PM</p>
+                        <p>partnerships@alumforge.com</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section class="faq">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I become a member of Alum Forge?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To become a member, simply click on the "Register Now" button on our homepage and fill out the registration form. You'll need to provide your graduation year, degree program, and current contact information. Membership is free for all Thapar University alumni.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What benefits do I get as a member?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>As a member, you get access to our exclusive alumni directory, job board, networking events, mentorship opportunities, and professional development workshops. You also receive regular updates about university news and alumni achievements.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How can I update my contact information?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can update your contact information by logging into your member account on our website, or by contacting our membership services team at membership@alumforge.com. We encourage you to keep your information current to stay connected with the community.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I volunteer for Alum Forge events?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely! We welcome volunteers for our events and activities. You can express your interest by contacting our events team at events@alumforge.com or by filling out the volunteer form available on our website.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I get in touch with other alumni?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can search our alumni directory by graduation year, degree program, location, or industry. You can also join our social media groups and attend networking events to connect with fellow alumni in person.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAP SECTION -->
+        <section class="map-section">
+            <div class="container">
+                <h2>Find Us</h2>
+                <div class="map-container">
+                    <i class="fas fa-map-marker-alt" style="font-size: 3rem; color: #800000; margin-right: 1rem;"></i>
+                    <div>
+                        <h3>Thapar University</h3>
+                        <p>Patiala, Punjab 147004, India</p>
+                        <p>Interactive map coming soon</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="cta">
+            <div class="container">
+                <h2>Ready to Connect?</h2>
+                <p>Join our vibrant alumni community and start building meaningful connections today.</p>
+                <a href="index.html" class="btn">Join Alum Forge</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Alum Forge</h4>
+                    <p>Fostering lifelong engagement and creating meaningful opportunities for our community.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="announcements.html">News</a></li>
+                        <li><a href="#" onclick="handleGiveBack()">Give Back</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><p>Patiala, Punjab, India</p></li>
+                        <li><a href="mailto:contact@alumforge.com">contact@alumforge.com</a></li>
+                        <li><a href="tel:+911234567890">+91 123 456 7890</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" onclick="handleSocialClick('twitter')"><i class="fab fa-twitter"></i></a>
+                        <a href="#" onclick="handleSocialClick('facebook')"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" onclick="handleSocialClick('linkedin')"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" onclick="handleSocialClick('instagram')"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Alum Forge Alumni Association. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.classList.contains('active')) {
+                answer.classList.remove('active');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                // Close all other FAQ items
+                document.querySelectorAll('.faq-answer.active').forEach(item => {
+                    item.classList.remove('active');
+                });
+                document.querySelectorAll('.faq-question i').forEach(icon => {
+                    icon.style.transform = 'rotate(0deg)';
+                });
+                
+                // Open current FAQ item
+                answer.classList.add('active');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Form submission handling
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const firstName = formData.get('firstName');
+            const lastName = formData.get('lastName');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            // Basic validation
+            if (!firstName || !lastName || !email || !subject || !message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            // Show success message
+            alert(`Thank you for your message, ${firstName}!\n\nWe have received your inquiry about "${subject}" and will get back to you at ${email} within 24 hours.`);
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Authentication check - redirect to login if not authenticated
+        window.addEventListener('load', function() {
+            // Check if user is logged in
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                // Show login required message
+                alert('Please connect your wallet to access the Alum Forge website.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // User is logged in, proceed with normal functionality
+            const loginLink = document.querySelector('.navbar ul li a[href="login.html"]');
+            if (loginLink) {
+                const userAddress = localStorage.getItem('userAddress');
+                loginLink.textContent = 'Disconnect Wallet';
+                loginLink.href = '#';
+                loginLink.onclick = function(e) {
+                    e.preventDefault();
+                    logout();
+                };
+            }
+
+            // Initialize contact functionality
+            initializeContact();
+        });
+
+        function logout() {
+            if (confirm('Are you sure you want to disconnect your wallet?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userAddress');
+                localStorage.removeItem('loginMethod');
+                alert('You have been logged out successfully.');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function initializeContact() {
+            // Subscribe to updates button
+            const subscribeBtn = document.querySelector('.cta .btn');
+            if (subscribeBtn && subscribeBtn.textContent.includes('Subscribe')) {
+                subscribeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const userAddress = localStorage.getItem('userAddress');
+                    const shortAddress = userAddress ? userAddress.slice(0, 6) + '...' + userAddress.slice(-4) : 'User';
+                    alert(`Thank you! You have been subscribed to our updates. We'll send you the latest news and events at ${shortAddress}`);
+                });
+            }
+        }
+
+        // Handle Give Back button
+        function handleGiveBack() {
+            alert('Thank you for your interest in giving back! Please contact us at contact@alumforge.com to learn about volunteer opportunities and ways to contribute to our community.');
+        }
+
+        // Handle social media clicks
+        function handleSocialClick(platform) {
+            const socialLinks = {
+                'twitter': 'https://twitter.com/alumforge',
+                'facebook': 'https://facebook.com/alumforge',
+                'linkedin': 'https://linkedin.com/company/alumforge',
+                'instagram': 'https://instagram.com/alumforge'
+            };
+            
+            const url = socialLinks[platform];
+            if (url) {
+                window.open(url, '_blank');
+            } else {
+                alert(`Follow us on ${platform.charAt(0).toUpperCase() + platform.slice(1)}! Social media links coming soon.`);
+            }
+        }
+    </script>
+
+</body>
+</html>
+

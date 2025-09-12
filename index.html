@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alum Forge | Connect, Collaborate, Contribute</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* Reset */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+          line-height: 1.6;
+          background-color: #fff;
+          color: #333;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navbar */
+        .navbar {
+          background-color: #800000; /* dark red */
+          color: #fff;
+          padding: 0.8rem 2rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+        }
+        
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar .logo img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+        }
+        
+        .navbar .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar ul {
+          list-style: none;
+          display: flex;
+          gap: 1.5rem;
+        }
+
+        .navbar ul li a {
+          color: #fff;
+          text-decoration: none;
+          font-weight: bold;
+        }
+
+        .navbar ul li a:hover {
+          text-decoration: underline;
+        }
+
+        .navbar ul li a.active {
+          text-decoration: underline;
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+          position: relative;
+        }
+
+        .dropdown-toggle {
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+        }
+
+        .dropdown-toggle i {
+          font-size: 0.8rem;
+          transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-toggle i {
+          transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          background-color: #800000;
+          min-width: 200px;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          border-radius: 5px;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-10px);
+          transition: all 0.3s ease;
+          z-index: 1000;
+          padding: 0.5rem 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+          margin: 0;
+        }
+
+        .dropdown-menu li a {
+          display: block;
+          padding: 0.8rem 1.5rem;
+          color: white;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+          border-radius: 0;
+        }
+
+        .dropdown-menu li a:hover {
+          background-color: rgba(255,255,255,0.2);
+          color: #fff;
+        }
+
+        /* Welcome Section */
+        .welcome {
+          display: flex;
+          flex-wrap: wrap;
+          min-height: 80vh;
+          align-items: center;
+          background-color: #f4f4f4;
+        }
+
+        .welcome-text {
+          flex: 1;
+          padding: 3rem 2rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          min-width: 300px;
+        }
+
+        .welcome-text h1 {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+          color: #000000;
+        }
+
+        .welcome-text p {
+          margin-bottom: 2rem;
+          line-height: 1.6;
+          color: #333;
+        }
+
+        .btn {
+          display: inline-block;
+          background: #f5d142; /* Yellow */
+          color: #000;
+          padding: 0.75rem 1.5rem;
+          border-radius: 5px;
+          font-weight: bold;
+          text-align: center;
+          text-decoration: none;
+          align-self: flex-start; /* Align button to the left */
+          border: none;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+          background: #e0c030;
+        }
+
+        /* Welcome Image */
+        .welcome-img {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 2rem;
+          min-width: 300px;
+        }
+
+        .welcome-img img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 8px;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Sections */
+        section {
+            padding: 4rem 0;
+        }
+        
+        /* Features Section */
+        .features {
+            background: #fff;
+        }
+        .features .container .subtitle {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+            color: #555;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .feature-card {
+            background: #f4f4f4;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .feature-card i {
+            font-size: 3rem;
+            color: #800000;
+            margin-bottom: 1rem;
+        }
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Events Section */
+        .events {
+            background: #f4f4f4;
+        }
+        .event-card {
+            background: #fff;
+            margin: 1rem auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            max-width: 800px;
+        }
+        .event-date {
+            background: #800000;
+            color: #fff;
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 8px 0 0 8px;
+        }
+        .event-date span { display: block; }
+        .event-date .month { font-size: 1rem; text-transform: uppercase; }
+        .event-date .day { font-size: 2.5rem; font-weight: bold; line-height: 1; }
+        .event-details {
+            padding: 1.5rem;
+        }
+        .event-details h3 {
+            font-size: 1.5rem;
+            color: #800000;
+        }
+        
+        /* Announcements Section */
+        .announcements {
+            background: #f4f4f4;
+        }
+        .announcements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .announcement-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .announcement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        .announcement-date {
+            background: #800000;
+            color: #fff;
+            padding: 1.5rem;
+            text-align: center;
+            min-width: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .announcement-date .month {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            display: block;
+        }
+        .announcement-date .day {
+            font-size: 2rem;
+            font-weight: bold;
+            line-height: 1;
+            display: block;
+        }
+        .announcement-content {
+            padding: 1.5rem;
+            flex: 1;
+        }
+        .announcement-content h3 {
+            color: #800000;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        .announcement-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .announcement-tag {
+            background: #f5d142;
+            color: #000;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .announcements-cta {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: #800000;
+            color: #fff;
+            text-align: center;
+        }
+        .cta h2 { color: #fff; }
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+        
+        /* Footer */
+        .footer {
+          background: #333;
+          color: #fff;
+          padding: 3rem 0 1rem 0;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #f5d142;
+        }
+        .footer-col p, .footer-col ul li {
+            margin-bottom: 0.5rem;
+        }
+        .footer-col a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .footer-col a:hover {
+            text-decoration: underline;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .social-links a {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            .navbar .logo {
+                margin-bottom: 1rem;
+            }
+            .welcome {
+                text-align: center;
+            }
+            .welcome-text {
+                padding: 2rem;
+            }
+            .welcome-text h1 {
+                font-size: 2rem;
+            }
+            .btn {
+                align-self: center;
+            }
+            .event-card {
+                flex-direction: column;
+            }
+            .event-date {
+                border-radius: 8px 8px 0 0;
+            }
+            .announcement-card {
+                flex-direction: column;
+            }
+            .announcement-date {
+                border-radius: 8px 8px 0 0;
+                min-width: auto;
+                padding: 1rem;
+            }
+            .announcements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://i.ibb.co/WWHPvcJM/alum-forge-logo.jpg" alt="Alum Forge Logo">
+            <span>Alum Forge</span>
+        </div>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="announcements.html">Announcements</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Community <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="profiles.html">Alumni Profiles</a></li>
+                    <li><a href="campus-feed.html">Campus Feed</a></li>
+                    <li><a href="messaging.html">Messaging</a></li>
+                    <li><a href="memories.html">Memories</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Resources <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="job-board.html">Job Board</a></li>
+                    <li><a href="newsletters.html">Newsletters</a></li>
+                </ul>
+            </li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html" id="loginLink">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- WELCOME + IMAGE SECTION -->
+        <section class="welcome">
+            <div class="container" style="display: flex; flex-wrap: wrap; align-items: center;">
+                <div class="welcome-text">
+                    <h1>Welcome to the Alum Forge Alumni Association</h1>
+                    <p>
+                        A centralized platform for alumni, students, and faculty to connect, collaborate, and contribute. Reignite old friendships and forge new professional connections.
+                    </p>
+                </div>
+                <div class="welcome-img">
+                    <img src="https://i.ibb.co/21MfzJ1W/thapar-university.jpg" alt="Thapar University Building">
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES SECTION -->
+        <section id="features" class="features">
+            <div class="container">
+                <h2>Why Join Alum Forge?</h2>
+                <p class="subtitle">Our platform provides exclusive resources to help you succeed in your personal and professional life.</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Connect & Network</h3>
+                        <p>Find old classmates and connect with professionals using our exclusive alumni directory.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-briefcase"></i>
+                        <h3>Find Opportunities</h3>
+                        <p>Access a curated job board with postings from fellow alumni and trusted companies.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Mentor & Guide</h3>
+                        <p>Give back by mentoring current students and sharing your valuable experience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- UPCOMING EVENTS SECTION -->
+        <section id="events" class="events">
+            <div class="container">
+                <h2>Upcoming Events</h2>
+                <div class="event-card">
+                    <div class="event-date">
+                        <span class="month">Oct</span>
+                        <span class="day">25</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Annual Alumni Gala 2025</h3>
+                        <p>Join us for a night of celebration, networking, and reminiscing. Dress to impress!</p>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div class="event-date">
+                        <span class="month">Nov</span>
+                        <span class="day">12</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Webinar: AI in a Modern Workplace</h3>
+                        <p>A virtual session with industry leader and alumnus, Priya Sharma.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ANNOUNCEMENTS SECTION -->
+        <section class="announcements">
+            <div class="container">
+                <h2>Latest Announcements</h2>
+                <div class="announcements-grid">
+                    <div class="announcement-card">
+                        <div class="announcement-date">
+                            <span class="month">Dec</span>
+                            <span class="day">15</span>
+                        </div>
+                        <div class="announcement-content">
+                            <h3>Web3 Integration Complete</h3>
+                            <p>Alum Forge now supports MetaMask wallet connections for enhanced security and decentralization. Connect your wallet to access all features.</p>
+                            <span class="announcement-tag">New Feature</span>
+                        </div>
+                    </div>
+                    <div class="announcement-card">
+                        <div class="announcement-date">
+                            <span class="month">Dec</span>
+                            <span class="day">10</span>
+                        </div>
+                        <div class="announcement-content">
+                            <h3>Annual Alumni Gala 2025</h3>
+                            <p>Join us for our biggest event of the year! Early bird registration is now open with special discounts for early registrants.</p>
+                            <span class="announcement-tag">Event</span>
+                        </div>
+                    </div>
+                    <div class="announcement-card">
+                        <div class="announcement-date">
+                            <span class="month">Dec</span>
+                            <span class="day">05</span>
+                        </div>
+                        <div class="announcement-content">
+                            <h3>New Mentorship Program</h3>
+                            <p>We're launching a new mentorship program connecting current students with successful alumni. Applications open now!</p>
+                            <span class="announcement-tag">Program</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="announcements-cta">
+                    <a href="announcements.html" class="btn secondary">View All Announcements</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CALL TO ACTION SECTION -->
+        <section class="cta">
+            <div class="container">
+                <h2>Ready to Reconnect?</h2>
+                <p>Become a part of our thriving community today and unlock a world of opportunities.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Alum Forge</h4>
+                    <p>Fostering lifelong engagement and creating meaningful opportunities for our community.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="announcements.html">Announcements</a></li>
+                        <li><a href="#" onclick="handleGiveBack()">Give Back</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><p>Patiala, Punjab, India</p></li>
+                        <li><a href="mailto:contact@alumforge.com">contact@alumforge.com</a></li>
+                        <li><a href="tel:+911234567890">+91 123 456 7890</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" onclick="handleSocialClick('twitter')"><i class="fab fa-twitter"></i></a>
+                        <a href="#" onclick="handleSocialClick('facebook')"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" onclick="handleSocialClick('linkedin')"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" onclick="handleSocialClick('instagram')"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Alum Forge Alumni Association. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Authentication check - redirect to login if not authenticated
+        window.addEventListener('load', function() {
+            // Check if user is logged in
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                // Show login required message
+                alert('Please connect your wallet to access the Alum Forge website.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // User is logged in, proceed with normal functionality
+            const loginLink = document.getElementById('loginLink');
+            const userAddress = localStorage.getItem('userAddress');
+            const loginMethod = localStorage.getItem('loginMethod');
+            
+            loginLink.textContent = 'Disconnect Wallet';
+            loginLink.href = '#';
+            loginLink.onclick = function(e) {
+                e.preventDefault();
+                logout();
+            };
+            
+            // Show welcome message for logged in users
+            const welcomeText = document.querySelector('.welcome-text p');
+            if (welcomeText && userAddress) {
+                const shortAddress = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
+                welcomeText.innerHTML = `Welcome back, ${shortAddress}!<br><br>A centralized platform for alumni, students, and faculty to connect, collaborate, and contribute. Reignite old friendships and forge new professional connections.`;
+            }
+        });
+
+        function logout() {
+            if (confirm('Are you sure you want to disconnect your wallet?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userAddress');
+                localStorage.removeItem('loginMethod');
+                alert('You have been logged out successfully.');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Handle Give Back button
+        function handleGiveBack() {
+            alert('Thank you for your interest in giving back! Please contact us at contact@alumforge.com to learn about volunteer opportunities and ways to contribute to our community.');
+        }
+
+        // Handle social media clicks
+        function handleSocialClick(platform) {
+            const socialLinks = {
+                'twitter': 'https://twitter.com/alumforge',
+                'facebook': 'https://facebook.com/alumforge',
+                'linkedin': 'https://linkedin.com/company/alumforge',
+                'instagram': 'https://instagram.com/alumforge'
+            };
+            
+            const url = socialLinks[platform];
+            if (url) {
+                window.open(url, '_blank');
+            } else {
+                alert(`Follow us on ${platform.charAt(0).toUpperCase() + platform.slice(1)}! Social media links coming soon.`);
+            }
+        }
+    </script>
+
+</body>
+</html>
+
