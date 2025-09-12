@@ -140,8 +140,89 @@
         }
 
         .dropdown-menu li a:hover {
-          background-color: rgba(255,255,255,0.2);
-          color: #fff;
+            background-color: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        /* Profile Section Styles */
+        .profile-section {
+            position: relative;
+        }
+
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            background: none;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .profile-btn:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .profile-btn i {
+            font-size: 1.2rem;
+        }
+
+        .profile-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+
+        .profile-dropdown:hover .profile-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .profile-menu-item:hover {
+            background-color: #f8f9fa;
+            color: #800000;
+        }
+
+        .profile-menu-item i {
+            width: 16px;
+            text-align: center;
+        }
+
+        .profile-menu-divider {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 0.5rem 0;
         }
 
         /* Main Content */
@@ -585,6 +666,30 @@
             <li><a href="login.html" class="active">Login</a></li>
         </ul>
     </nav>
+    <div class="profile-section" id="profileSection" style="display: none;">
+        <div class="profile-dropdown">
+            <button class="profile-btn" onclick="toggleProfileDropdown()">
+                <i class="fas fa-user-circle"></i>
+                <span id="profileName">User</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="profile-dropdown-menu" id="profileDropdownMenu">
+                <a href="user-profile.html" class="profile-menu-item">
+                    <i class="fas fa-user"></i> My Profile
+                </a>
+                <a href="profiles.html" class="profile-menu-item">
+                    <i class="fas fa-users"></i> Alumni Profiles
+                </a>
+                <a href="messaging.html" class="profile-menu-item">
+                    <i class="fas fa-envelope"></i> Messages
+                </a>
+                <div class="profile-menu-divider"></div>
+                <a href="#" class="profile-menu-item" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </div>
 
     <!-- MAIN CONTENT -->
     <main>
@@ -1006,6 +1111,22 @@
                 alert(`Follow us on ${platform.charAt(0).toUpperCase() + platform.slice(1)}! Social media links coming soon.`);
             }
         }
+
+        // Toggle profile dropdown
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdownMenu');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const profileSection = document.getElementById('profileSection');
+            const dropdown = document.getElementById('profileDropdownMenu');
+            
+            if (!profileSection.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
     </script>
 
 </body>

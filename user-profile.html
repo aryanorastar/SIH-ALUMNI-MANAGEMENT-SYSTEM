@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Alum Forge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        .header {
+            background-color: #800000;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .dropdown-toggle i {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-toggle i {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #800000;
+            min-width: 200px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            padding: 0.5rem 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            margin: 0;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            border-radius: 0;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        /* Profile Section Styles */
+        .profile-section {
+            position: relative;
+        }
+
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            background: none;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .profile-btn:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .profile-btn i {
+            font-size: 1.2rem;
+        }
+
+        .profile-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+
+        .profile-dropdown:hover .profile-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .profile-menu-item:hover {
+            background-color: #f8f9fa;
+            color: #800000;
+        }
+
+        .profile-menu-item i {
+            width: 16px;
+            text-align: center;
+        }
+
+        .profile-menu-divider {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 0.5rem 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #800000 0%, #a00000 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin: 0 auto 1.5rem auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-title {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .profile-address {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            font-family: 'Courier New', monospace;
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .profile-section-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #800000;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            font-size: 1.2rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .edit-btn {
+            background: #800000;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: #a00000;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: #f0f0f0;
+            color: #800000;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .experience-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .experience-item:last-child {
+            border-bottom: none;
+        }
+
+        .experience-title {
+            font-weight: 600;
+            color: #800000;
+            margin-bottom: 0.25rem;
+        }
+
+        .experience-company {
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .experience-duration {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-name {
+                font-size: 2rem;
+            }
+
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Alum Forge</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="announcements.html">Announcements</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Community <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="profiles.html">Alumni Profiles</a></li>
+                            <li><a href="campus-feed.html">Campus Feed</a></li>
+                            <li><a href="messaging.html">Messaging</a></li>
+                            <li><a href="memories.html">Memories</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Resources <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="job-board.html">Job Board</a></li>
+                            <li><a href="newsletters.html">Newsletters</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="profile-section" id="profileSection">
+                <div class="profile-dropdown">
+                    <button class="profile-btn" onclick="toggleProfileDropdown()">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="profileName">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="profile-dropdown-menu" id="profileDropdownMenu">
+                        <a href="user-profile.html" class="profile-menu-item">
+                            <i class="fas fa-user"></i> My Profile
+                        </a>
+                        <a href="profiles.html" class="profile-menu-item">
+                            <i class="fas fa-users"></i> Alumni Profiles
+                        </a>
+                        <a href="messaging.html" class="profile-menu-item">
+                            <i class="fas fa-envelope"></i> Messages
+                        </a>
+                        <div class="profile-menu-divider"></div>
+                        <a href="#" class="profile-menu-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <img src="https://via.placeholder.com/120x120/800000/ffffff?text=U" alt="Profile Avatar" class="profile-avatar">
+            <h1 class="profile-name" id="profileDisplayName">Alumni User</h1>
+            <p class="profile-title">Computer Science Graduate | Software Engineer</p>
+            <div class="profile-address" id="profileAddress">0x1234...5678</div>
+        </div>
+
+        <!-- Profile Content -->
+        <div class="profile-content">
+            <!-- Personal Information -->
+            <div class="profile-section-card">
+                <h2 class="section-title">
+                    <i class="fas fa-user"></i>
+                    Personal Information
+                </h2>
+                <div class="info-item">
+                    <span class="info-label">Full Name</span>
+                    <span class="info-value" id="fullName">John Doe</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Email</span>
+                    <span class="info-value" id="email">john.doe@example.com</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Phone</span>
+                    <span class="info-value" id="phone">+1 (555) 123-4567</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Location</span>
+                    <span class="info-value" id="location">San Francisco, CA</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Graduation Year</span>
+                    <span class="info-value" id="graduationYear">2020</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Course</span>
+                    <span class="info-value" id="course">Computer Science</span>
+                </div>
+                <button class="edit-btn" onclick="editProfile()">
+                    <i class="fas fa-edit"></i> Edit Profile
+                </button>
+            </div>
+
+            <!-- Professional Information -->
+            <div class="profile-section-card">
+                <h2 class="section-title">
+                    <i class="fas fa-briefcase"></i>
+                    Professional Information
+                </h2>
+                <div class="info-item">
+                    <span class="info-label">Current Role</span>
+                    <span class="info-value" id="currentRole">Senior Software Engineer</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Company</span>
+                    <span class="info-value" id="company">Tech Corp</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Industry</span>
+                    <span class="info-value" id="industry">Technology</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Experience</span>
+                    <span class="info-value" id="experience">4+ years</span>
+                </div>
+                <button class="edit-btn" onclick="editProfessional()">
+                    <i class="fas fa-edit"></i> Edit Professional Info
+                </button>
+            </div>
+
+            <!-- Skills -->
+            <div class="profile-section-card">
+                <h2 class="section-title">
+                    <i class="fas fa-code"></i>
+                    Skills
+                </h2>
+                <div class="skills-list" id="skillsList">
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">AWS</span>
+                    <span class="skill-tag">Machine Learning</span>
+                </div>
+                <button class="edit-btn" onclick="editSkills()" style="margin-top: 1rem;">
+                    <i class="fas fa-edit"></i> Edit Skills
+                </button>
+            </div>
+
+            <!-- Work Experience -->
+            <div class="profile-section-card">
+                <h2 class="section-title">
+                    <i class="fas fa-history"></i>
+                    Work Experience
+                </h2>
+                <div class="experience-item">
+                    <div class="experience-title">Senior Software Engineer</div>
+                    <div class="experience-company">Tech Corp</div>
+                    <div class="experience-duration">2022 - Present</div>
+                </div>
+                <div class="experience-item">
+                    <div class="experience-title">Software Engineer</div>
+                    <div class="experience-company">StartupXYZ</div>
+                    <div class="experience-duration">2020 - 2022</div>
+                </div>
+                <div class="experience-item">
+                    <div class="experience-title">Junior Developer</div>
+                    <div class="experience-company">WebDev Inc</div>
+                    <div class="experience-duration">2019 - 2020</div>
+                </div>
+                <button class="edit-btn" onclick="editExperience()" style="margin-top: 1rem;">
+                    <i class="fas fa-edit"></i> Edit Experience
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Alum Forge. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Authentication check
+        window.addEventListener('load', function() {
+            checkAuthAndRedirect();
+            updateProfileInfo();
+        });
+
+        function checkAuthAndRedirect() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn !== 'true') {
+                alert('Please connect your wallet to access your profile.');
+                window.location.href = 'login.html';
+                return;
+            }
+        }
+
+        function updateProfileInfo() {
+            const userAddress = localStorage.getItem('userAddress');
+            if (userAddress) {
+                const shortAddress = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
+                document.getElementById('profileName').textContent = shortAddress;
+                document.getElementById('profileAddress').textContent = shortAddress;
+            }
+        }
+
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdownMenu');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to disconnect your wallet?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userAddress');
+                localStorage.removeItem('loginMethod');
+                alert('You have been disconnected.');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function editProfile() {
+            alert('Profile editing feature coming soon!');
+        }
+
+        function editProfessional() {
+            alert('Professional information editing feature coming soon!');
+        }
+
+        function editSkills() {
+            alert('Skills editing feature coming soon!');
+        }
+
+        function editExperience() {
+            alert('Work experience editing feature coming soon!');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const profileSection = document.getElementById('profileSection');
+            const dropdown = document.getElementById('profileDropdownMenu');
+            
+            if (!profileSection.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
