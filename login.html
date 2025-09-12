@@ -46,10 +46,22 @@
           z-index: 100;
           backdrop-filter: blur(10px);
         }
-        
+
         .navbar .logo {
+            flex-shrink: 0;
             display: flex;
             align-items: center;
+        }
+
+        .navbar ul {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .navbar .profile-section {
+            flex-shrink: 0;
         }
         
         .navbar .logo img {
@@ -66,8 +78,6 @@
 
         .navbar ul {
           list-style: none;
-          display: flex;
-          gap: 1.5rem;
         }
 
         .navbar ul li a {
@@ -665,31 +675,31 @@
             <li><a href="contact.html">Contact</a></li>
             <li><a href="login.html" class="active">Login</a></li>
         </ul>
-    </nav>
-    <div class="profile-section" id="profileSection" style="display: none;">
-        <div class="profile-dropdown">
-            <button class="profile-btn" onclick="toggleProfileDropdown()">
-                <i class="fas fa-user-circle"></i>
-                <span id="profileName">User</span>
-                <i class="fas fa-chevron-down"></i>
-            </button>
-            <div class="profile-dropdown-menu" id="profileDropdownMenu">
-                <a href="user-profile.html" class="profile-menu-item">
-                    <i class="fas fa-user"></i> My Profile
-                </a>
-                <a href="profiles.html" class="profile-menu-item">
-                    <i class="fas fa-users"></i> Alumni Profiles
-                </a>
-                <a href="messaging.html" class="profile-menu-item">
-                    <i class="fas fa-envelope"></i> Messages
-                </a>
-                <div class="profile-menu-divider"></div>
-                <a href="#" class="profile-menu-item" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
+        <div class="profile-section" id="profileSection" style="display: none;">
+            <div class="profile-dropdown">
+                <button class="profile-btn" onclick="toggleProfileDropdown()">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="profileName">User</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="profile-dropdown-menu" id="profileDropdownMenu">
+                    <a href="user-profile.html" class="profile-menu-item">
+                        <i class="fas fa-user"></i> My Profile
+                    </a>
+                    <a href="profiles.html" class="profile-menu-item">
+                        <i class="fas fa-users"></i> Alumni Profiles
+                    </a>
+                    <a href="messaging.html" class="profile-menu-item">
+                        <i class="fas fa-envelope"></i> Messages
+                    </a>
+                    <div class="profile-menu-divider"></div>
+                    <a href="#" class="profile-menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
+    </nav>
 
     <!-- MAIN CONTENT -->
     <main>

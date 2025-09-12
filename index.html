@@ -47,10 +47,22 @@
           top: 0;
           z-index: 100;
         }
-        
+
         .navbar .logo {
+            flex-shrink: 0;
             display: flex;
             align-items: center;
+        }
+
+        .navbar ul {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .navbar .profile-section {
+            flex-shrink: 0;
         }
         
         .navbar .logo img {
@@ -67,8 +79,6 @@
 
         .navbar ul {
           list-style: none;
-          display: flex;
-          gap: 1.5rem;
         }
 
         .navbar ul li a {
