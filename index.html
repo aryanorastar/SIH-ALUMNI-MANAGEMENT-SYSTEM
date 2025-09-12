@@ -568,7 +568,7 @@
             <div class="profile-dropdown">
                 <button class="profile-btn" onclick="toggleProfileDropdown()">
                     <i class="fas fa-user-circle"></i>
-                    <span id="profileName">User</span>
+                    <span>Profile</span>
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="profile-dropdown-menu" id="profileDropdownMenu">
@@ -774,13 +774,6 @@
             // Hide login link and show profile section
             loginLink.style.display = 'none';
             profileSection.style.display = 'block';
-            
-            // Update profile name
-            const profileName = document.getElementById('profileName');
-            if (userAddress) {
-                const shortAddress = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
-                profileName.textContent = shortAddress;
-            }
             
             // Show welcome message for logged in users
             const welcomeText = document.querySelector('.welcome-text p');

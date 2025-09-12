@@ -436,7 +436,7 @@
                 <div class="profile-dropdown">
                     <button class="profile-btn" onclick="toggleProfileDropdown()">
                         <i class="fas fa-user-circle"></i>
-                        <span id="profileName">User</span>
+                        <span>Profile</span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <div class="profile-dropdown-menu" id="profileDropdownMenu">
@@ -607,7 +607,6 @@
             const userAddress = localStorage.getItem('userAddress');
             if (userAddress) {
                 const shortAddress = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
-                document.getElementById('profileName').textContent = shortAddress;
                 document.getElementById('profileAddress').textContent = shortAddress;
             }
         }
