@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Alum Forge</title>
+    <title>Web3 Login | Alum Forge</title>
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Web3.js -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     
     <style>
         /* Reset */
@@ -82,6 +84,66 @@
           text-decoration: underline;
         }
 
+        /* Dropdown Styles */
+        .dropdown {
+          position: relative;
+        }
+
+        .dropdown-toggle {
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+        }
+
+        .dropdown-toggle i {
+          font-size: 0.8rem;
+          transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-toggle i {
+          transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          background-color: #800000;
+          min-width: 200px;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          border-radius: 5px;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-10px);
+          transition: all 0.3s ease;
+          z-index: 1000;
+          padding: 0.5rem 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+          margin: 0;
+        }
+
+        .dropdown-menu li a {
+          display: block;
+          padding: 0.8rem 1.5rem;
+          color: white;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+          border-radius: 0;
+        }
+
+        .dropdown-menu li a:hover {
+          background-color: rgba(255,255,255,0.2);
+          color: #fff;
+        }
+
         /* Main Content */
         main {
             flex: 1;
@@ -98,7 +160,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             overflow: hidden;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             margin: 2rem;
         }
 
@@ -117,6 +179,111 @@
         .login-header p {
             opacity: 0.9;
         }
+
+
+        .wallet-status {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .wallet-connected {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .wallet-address {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+            margin-top: 0.5rem;
+        }
+
+        .wallet-balance {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .web3-btn {
+            background: linear-gradient(45deg, #f7931e, #ff6b35);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 1rem;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-height: 60px;
+        }
+
+        .web3-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(247, 147, 30, 0.3);
+        }
+
+        .web3-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .metamask-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .network-info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #1976d2;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .error-network {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+
+        .loading-web3 {
+            display: none;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .spinner-web3 {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #f7931e;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
 
         .login-form {
             padding: 2rem;
@@ -380,9 +547,7 @@
             }
             .login-container {
                 margin: 1rem;
-            }
-            .social-login {
-                flex-direction: column;
+                max-width: 100%;
             }
         }
     </style>
@@ -399,6 +564,23 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="events.html">Events</a></li>
+            <li><a href="announcements.html">Announcements</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Community <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="profiles.html">Alumni Profiles</a></li>
+                    <li><a href="campus-feed.html">Campus Feed</a></li>
+                    <li><a href="messaging.html">Messaging</a></li>
+                    <li><a href="memories.html">Memories</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Resources <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="job-board.html">Job Board</a></li>
+                    <li><a href="newsletters.html">Newsletters</a></li>
+                </ul>
+            </li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="login.html" class="active">Login</a></li>
         </ul>
@@ -408,65 +590,69 @@
     <main>
         <div class="login-container">
             <div class="login-header">
-                <h1>Welcome Back</h1>
-                <p>Sign in to your Alum Forge account</p>
+                <h1>Connect Your Wallet</h1>
+                <p>Connect with MetaMask to access Alum Forge</p>
             </div>
             
             <div class="login-form">
                 <div class="message success" id="successMessage">
-                    Login successful! Redirecting...
+                    Wallet connected successfully! Redirecting...
                 </div>
                 
                 <div class="message error" id="errorMessage">
-                    Invalid credentials. Please try again.
+                    Failed to connect wallet. Please try again.
                 </div>
 
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required>
-                        <div class="error-message" id="emailError">Please enter a valid email address</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required>
-                        <div class="error-message" id="passwordError">Password is required</div>
-                    </div>
-
-                    <div class="form-options">
-                        <div class="remember-me">
-                            <input type="checkbox" id="remember" name="remember">
-                            <label for="remember">Remember me</label>
-                        </div>
-                        <a href="#" class="forgot-password" onclick="showForgotPassword()">Forgot Password?</a>
-                    </div>
-
-                    <button type="submit" class="btn" id="loginBtn">Sign In</button>
-                    
-                    <div class="loading" id="loading">
-                        <div class="spinner"></div>
-                        <p>Signing you in...</p>
-                    </div>
-                </form>
-
-                <div class="divider">
-                    <span>or</span>
+                <!-- Network Info -->
+                <div class="network-info" id="networkInfo">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="networkText">Please connect to Ethereum Mainnet or Sepolia Testnet</span>
                 </div>
 
-                <div class="social-login">
-                    <a href="#" class="social-btn" onclick="socialLogin('google')">
-                        <i class="fab fa-google"></i>
-                        Google
-                    </a>
-                    <a href="#" class="social-btn" onclick="socialLogin('linkedin')">
-                        <i class="fab fa-linkedin-in"></i>
-                        LinkedIn
-                    </a>
+                <!-- Wallet Status -->
+                <div class="wallet-status" id="walletStatus">
+                    <i class="fas fa-wallet"></i>
+                    <div id="walletText">No wallet connected</div>
+                    <div class="wallet-address" id="walletAddress" style="display: none;"></div>
+                    <div class="wallet-balance" id="walletBalance" style="display: none;"></div>
                 </div>
+
+                <!-- Web3 Connect Button -->
+                <button class="web3-btn" id="connectWalletBtn" onclick="connectWallet()" style="display: block;">
+                    <svg class="metamask-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M22.56 4.5L12.5 9.5L14.5 2.5L22.56 4.5Z"/>
+                        <path d="M1.44 4.5L11.44 9.6L9.5 2.5L1.44 4.5Z"/>
+                        <path d="M19.5 17.5L16.5 20.5L21.5 22L22.5 17.5L19.5 17.5Z"/>
+                        <path d="M4.5 17.5L1.5 17.5L2.5 22L7.5 20.5L4.5 17.5Z"/>
+                        <path d="M12 15.5C14.2 15.5 16 13.7 16 11.5C16 9.3 14.2 7.5 12 7.5C9.8 7.5 8 9.3 8 11.5C8 13.7 9.8 15.5 12 15.5Z"/>
+                    </svg>
+                    Connect MetaMask
+                </button>
+
+                <!-- Connection Instructions -->
+                <div class="connection-instructions" style="background: #e3f2fd; border: 1px solid #2196f3; border-radius: 8px; padding: 1rem; margin: 1rem 0; font-size: 0.9rem; color: #1976d2;">
+                    <strong>📋 Connection Steps:</strong><br>
+                    1. Click "Connect MetaMask" above<br>
+                    2. Look for MetaMask popup (check browser notifications)<br>
+                    3. Click "Connect" in the popup (not Cancel)<br>
+                    4. Select your account if prompted<br>
+                    5. Click "Connect" again to confirm
+                </div>
+
+                <div class="loading-web3" id="loadingWeb3">
+                    <div class="spinner-web3"></div>
+                    <p>Connecting to wallet...</p>
+                </div>
+
+                <!-- Disconnect Button (hidden initially) -->
+                <button class="btn secondary" id="disconnectBtn" onclick="disconnectWallet()" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Disconnect Wallet
+                </button>
+
 
                 <div class="signup-link">
-                    Don't have an account? <a href="#" onclick="showSignup()">Sign up here</a>
+                    New to Web3? <a href="https://metamask.io" target="_blank">Get MetaMask</a>
                 </div>
             </div>
         </div>
@@ -485,8 +671,8 @@
                     <ul>
                         <li><a href="about.html">About Us</a></li>
                         <li><a href="events.html">Events</a></li>
-                        <li><a href="#">News</a></li>
-                        <li><a href="#">Give Back</a></li>
+                        <li><a href="announcements.html">News</a></li>
+                        <li><a href="#" onclick="handleGiveBack()">Give Back</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -500,10 +686,10 @@
                 <div class="footer-col">
                     <h4>Follow Us</h4>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#" onclick="handleSocialClick('twitter')"><i class="fab fa-twitter"></i></a>
+                        <a href="#" onclick="handleSocialClick('facebook')"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" onclick="handleSocialClick('linkedin')"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" onclick="handleSocialClick('instagram')"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
@@ -514,61 +700,224 @@
     </footer>
 
     <script>
-        // Login form handling
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        let web3;
+        let userAccount;
+        let isConnected = false;
+
+        // Initialize Web3
+        window.addEventListener('load', async function() {
+            // Ensure button is visible
+            const connectBtn = document.getElementById('connectWalletBtn');
+            connectBtn.style.display = 'flex';
             
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const remember = document.getElementById('remember').checked;
+            // Check if MetaMask is installed
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    web3 = new Web3(window.ethereum);
+                    
+                    // Check if already connected
+                    const accounts = await web3.eth.getAccounts();
+                    if (accounts.length > 0) {
+                        userAccount = accounts[0];
+                        isConnected = true;
+                        updateWalletStatus();
+                        checkNetwork();
+                    } else {
+                        updateWalletStatus();
+                    }
+                } catch (error) {
+                    console.error('Error initializing Web3:', error);
+                    updateWalletStatus();
+                }
+            } else {
+                showError('general', 'MetaMask is not installed. Please install MetaMask to continue.');
+                connectBtn.disabled = true;
+                connectBtn.textContent = 'MetaMask Required';
+            }
+        });
+
+        // Connect to MetaMask
+        async function connectWallet() {
+            console.log('Attempting to connect wallet...');
             
-            // Clear previous errors
-            clearErrors();
-            
-            // Validate inputs
-            if (!validateEmail(email)) {
-                showError('email', 'Please enter a valid email address');
+            if (typeof window.ethereum === 'undefined') {
+                showError('general', 'MetaMask is not installed. Please install MetaMask first.');
                 return;
             }
-            
-            if (password.length < 6) {
-                showError('password', 'Password must be at least 6 characters');
-                return;
-            }
-            
-            // Show loading
-            showLoading(true);
-            
-            // Simulate login process
-            setTimeout(() => {
-                // Demo credentials for testing
-                if (email === 'demo@alumforge.com' && password === 'password123') {
+
+            try {
+                showLoadingWeb3(true);
+                console.log('Requesting accounts...');
+                
+                // First, try to get accounts without requesting permission
+                let accounts = await window.ethereum.request({
+                    method: 'eth_accounts'
+                });
+                
+                console.log('Current accounts:', accounts);
+                
+                // If no accounts, request permission
+                if (accounts.length === 0) {
+                    console.log('No accounts found, requesting permission...');
+                    accounts = await window.ethereum.request({
+                        method: 'eth_requestAccounts'
+                    });
+                }
+
+                console.log('Accounts received:', accounts);
+
+                if (accounts.length > 0) {
+                    userAccount = accounts[0];
+                    web3 = new Web3(window.ethereum);
+                    isConnected = true;
+                    
+                    console.log('Wallet connected successfully:', userAccount);
+                    
                     // Store login state
                     localStorage.setItem('isLoggedIn', 'true');
-                    localStorage.setItem('userEmail', email);
-                    if (remember) {
-                        localStorage.setItem('rememberMe', 'true');
-                    }
+                    localStorage.setItem('userAddress', userAccount);
+                    localStorage.setItem('loginMethod', 'web3');
                     
-                    showSuccess('Login successful! Redirecting to dashboard...');
+                    updateWalletStatus();
+                    checkNetwork();
+                    showSuccess('Wallet connected successfully! Redirecting...');
                     
                     // Redirect to home page
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 2000);
                 } else {
-                    showLoading(false);
-                    showError('general', 'Invalid email or password. Try demo@alumforge.com / password123');
+                    showError('general', 'No accounts found. Please unlock MetaMask and try again.');
+                    showLoadingWeb3(false);
                 }
-            }, 1500);
-        });
-        
-        // Email validation
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
+            } catch (error) {
+                console.error('Error connecting to wallet:', error);
+                let errorMessage = 'Failed to connect wallet. Please try again.';
+                
+                if (error.code === 4001) {
+                    errorMessage = 'Connection rejected. Please click "Connect" in the MetaMask popup.';
+                } else if (error.code === -32002) {
+                    errorMessage = 'Connection request already pending. Please check MetaMask.';
+                } else if (error.message) {
+                    errorMessage = error.message;
+                }
+                
+                console.log('Error details:', {
+                    code: error.code,
+                    message: error.message,
+                    stack: error.stack
+                });
+                
+                showError('general', errorMessage);
+                showLoadingWeb3(false);
+            }
         }
-        
+
+        // Disconnect wallet
+        function disconnectWallet() {
+            if (confirm('Are you sure you want to disconnect your wallet?')) {
+                console.log('Disconnecting wallet...');
+                
+                userAccount = null;
+                isConnected = false;
+                web3 = null;
+                
+                // Clear stored data
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userAddress');
+                localStorage.removeItem('loginMethod');
+                
+                // Update UI immediately
+                updateWalletStatus();
+                
+                // Hide success message after a moment
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 2000);
+                
+                showSuccess('Wallet disconnected successfully.');
+                
+                console.log('Wallet disconnected');
+            }
+        }
+
+        // Update wallet status UI
+        function updateWalletStatus() {
+            const walletStatus = document.getElementById('walletStatus');
+            const walletText = document.getElementById('walletText');
+            const walletAddress = document.getElementById('walletAddress');
+            const walletBalance = document.getElementById('walletBalance');
+            const connectBtn = document.getElementById('connectWalletBtn');
+            const disconnectBtn = document.getElementById('disconnectBtn');
+
+            if (isConnected && userAccount) {
+                walletStatus.classList.add('wallet-connected');
+                walletText.innerHTML = '<i class="fas fa-check-circle"></i> Wallet Connected';
+                walletAddress.textContent = userAccount;
+                walletAddress.style.display = 'block';
+                
+                connectBtn.style.display = 'none';
+                disconnectBtn.style.display = 'block';
+                
+                // Get wallet balance
+                getWalletBalance();
+            } else {
+                walletStatus.classList.remove('wallet-connected');
+                walletText.innerHTML = '<i class="fas fa-wallet"></i> No wallet connected';
+                walletAddress.style.display = 'none';
+                walletBalance.style.display = 'none';
+                
+                connectBtn.style.display = 'block';
+                disconnectBtn.style.display = 'none';
+            }
+        }
+
+        // Get wallet balance
+        async function getWalletBalance() {
+            if (!web3 || !userAccount) return;
+
+            try {
+                const balance = await web3.eth.getBalance(userAccount);
+                const balanceInEth = web3.utils.fromWei(balance, 'ether');
+                const balanceFormatted = parseFloat(balanceInEth).toFixed(4);
+                
+                document.getElementById('walletBalance').textContent = `Balance: ${balanceFormatted} ETH`;
+                document.getElementById('walletBalance').style.display = 'block';
+            } catch (error) {
+                console.error('Error getting balance:', error);
+            }
+        }
+
+        // Check network
+        async function checkNetwork() {
+            if (!web3) return;
+
+            try {
+                const networkId = await web3.eth.net.getId();
+                const networkInfo = document.getElementById('networkInfo');
+                const networkText = document.getElementById('networkText');
+
+                console.log('Network ID:', networkId);
+
+                // Convert to number if it's a string
+                const networkIdNum = parseInt(networkId);
+                
+                // Ethereum Mainnet = 1, Sepolia Testnet = 11155111
+                if (networkIdNum === 1) {
+                    networkInfo.className = 'network-info';
+                    networkText.textContent = 'Connected to Ethereum Mainnet';
+                } else if (networkIdNum === 11155111) {
+                    networkInfo.className = 'network-info';
+                    networkText.textContent = 'Connected to Sepolia Testnet';
+                } else {
+                    networkInfo.className = 'network-info error-network';
+                    networkText.textContent = `Unsupported network (ID: ${networkIdNum}). Please switch to Ethereum Mainnet or Sepolia Testnet.`;
+                }
+            } catch (error) {
+                console.error('Error checking network:', error);
+            }
+        }
+
         // Show error message
         function showError(field, message) {
             if (field === 'general') {
@@ -578,87 +927,85 @@
                 setTimeout(() => {
                     errorDiv.style.display = 'none';
                 }, 5000);
-            } else {
-                const input = document.getElementById(field);
-                const errorDiv = document.getElementById(field + 'Error');
-                input.classList.add('error');
-                errorDiv.textContent = message;
-                errorDiv.style.display = 'block';
             }
         }
-        
-        // Clear all errors
-        function clearErrors() {
-            document.querySelectorAll('.error-message').forEach(error => {
-                error.style.display = 'none';
-            });
-            document.querySelectorAll('input').forEach(input => {
-                input.classList.remove('error');
-            });
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'none';
-        }
-        
+
         // Show success message
         function showSuccess(message) {
             const successDiv = document.getElementById('successMessage');
             successDiv.textContent = message;
             successDiv.style.display = 'block';
         }
-        
+
         // Show/hide loading
-        function showLoading(show) {
-            const loading = document.getElementById('loading');
-            const loginBtn = document.getElementById('loginBtn');
+        function showLoadingWeb3(show) {
+            const loading = document.getElementById('loadingWeb3');
+            const connectBtn = document.getElementById('connectWalletBtn');
             
             if (show) {
                 loading.style.display = 'block';
-                loginBtn.disabled = true;
-                loginBtn.textContent = 'Signing In...';
+                connectBtn.disabled = true;
+                connectBtn.style.display = 'flex';
+                connectBtn.innerHTML = 'Connecting...';
             } else {
                 loading.style.display = 'none';
-                loginBtn.disabled = false;
-                loginBtn.textContent = 'Sign In';
+                connectBtn.disabled = false;
+                connectBtn.style.display = 'flex';
+                connectBtn.innerHTML = `
+                    <svg class="metamask-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M22.56 4.5L12.5 9.5L14.5 2.5L22.56 4.5Z"/>
+                        <path d="M1.44 4.5L11.44 9.6L9.5 2.5L1.44 4.5Z"/>
+                        <path d="M19.5 17.5L16.5 20.5L21.5 22L22.5 17.5L19.5 17.5Z"/>
+                        <path d="M4.5 17.5L1.5 17.5L2.5 22L7.5 20.5L4.5 17.5Z"/>
+                        <path d="M12 15.5C14.2 15.5 16 13.7 16 11.5C16 9.3 14.2 7.5 12 7.5C9.8 7.5 8 9.3 8 11.5C8 13.7 9.8 15.5 12 15.5Z"/>
+                    </svg>
+                    Connect MetaMask
+                `;
             }
         }
-        
-        // Social login
-        function socialLogin(provider) {
-            showLoading(true);
-            
-            setTimeout(() => {
-                showLoading(false);
-                alert(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login would be implemented here. For now, use demo@alumforge.com / password123`);
-            }, 1000);
-        }
-        
-        // Forgot password
-        function showForgotPassword() {
-            const email = prompt('Enter your email address to reset password:');
-            if (email && validateEmail(email)) {
-                alert('Password reset instructions have been sent to ' + email);
-            } else if (email) {
-                alert('Please enter a valid email address');
-            }
-        }
-        
-        // Show signup
-        function showSignup() {
-            alert('Sign up functionality would be implemented here. For now, use demo@alumforge.com / password123 to login');
-        }
-        
-        // Check if user is already logged in
-        window.addEventListener('load', function() {
-            if (localStorage.getItem('isLoggedIn') === 'true') {
-                const userEmail = localStorage.getItem('userEmail');
-                if (userEmail) {
-                    document.getElementById('email').value = userEmail;
-                    if (localStorage.getItem('rememberMe') === 'true') {
-                        document.getElementById('remember').checked = true;
-                    }
+
+        // Listen for account changes
+        if (window.ethereum) {
+            window.ethereum.on('accountsChanged', function(accounts) {
+                if (accounts.length === 0) {
+                    // User disconnected
+                    disconnectWallet();
+                } else {
+                    // User switched accounts
+                    userAccount = accounts[0];
+                    localStorage.setItem('userAddress', userAccount);
+                    updateWalletStatus();
+                    getWalletBalance();
                 }
+            });
+
+            // Listen for network changes
+            window.ethereum.on('chainChanged', function(chainId) {
+                window.location.reload();
+            });
+        }
+
+        // Handle Give Back button
+        function handleGiveBack() {
+            alert('Thank you for your interest in giving back! Please contact us at contact@alumforge.com to learn about volunteer opportunities and ways to contribute to our community.');
+        }
+
+        // Handle social media clicks
+        function handleSocialClick(platform) {
+            const socialLinks = {
+                'twitter': 'https://twitter.com/alumforge',
+                'facebook': 'https://facebook.com/alumforge',
+                'linkedin': 'https://linkedin.com/company/alumforge',
+                'instagram': 'https://instagram.com/alumforge'
+            };
+            
+            const url = socialLinks[platform];
+            if (url) {
+                window.open(url, '_blank');
+            } else {
+                alert(`Follow us on ${platform.charAt(0).toUpperCase() + platform.slice(1)}! Social media links coming soon.`);
             }
-        });
+        }
     </script>
 
 </body>
