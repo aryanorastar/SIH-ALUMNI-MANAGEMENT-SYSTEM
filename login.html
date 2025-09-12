@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Alum Forge</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* Reset */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+          line-height: 1.6;
+          background: linear-gradient(135deg, #800000 0%, #a00000 100%);
+          color: #333;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navbar */
+        .navbar {
+          background-color: rgba(128, 0, 0, 0.95);
+          color: #fff;
+          padding: 0.8rem 2rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          backdrop-filter: blur(10px);
+        }
+        
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar .logo img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+        }
+        
+        .navbar .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar ul {
+          list-style: none;
+          display: flex;
+          gap: 1.5rem;
+        }
+
+        .navbar ul li a {
+          color: #fff;
+          text-decoration: none;
+          font-weight: bold;
+        }
+
+        .navbar ul li a:hover {
+          text-decoration: underline;
+        }
+
+        .navbar ul li a.active {
+          text-decoration: underline;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        /* Login Container */
+        .login-container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+            margin: 2rem;
+        }
+
+        .login-header {
+            background: #800000;
+            color: #fff;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .login-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            opacity: 0.9;
+        }
+
+        .login-form {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #800000;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #800000;
+        }
+
+        .form-group input.error {
+            border-color: #dc3545;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .forgot-password {
+            color: #800000;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            background: #800000;
+            color: #fff;
+            padding: 0.75rem;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #600000;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn.secondary {
+            background: #f5d142;
+            color: #000;
+            margin-top: 1rem;
+        }
+
+        .btn.secondary:hover {
+            background: #e0c030;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: #666;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .divider span {
+            background: #fff;
+            padding: 0 1rem;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+            color: #333;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .social-btn:hover {
+            border-color: #800000;
+            color: #800000;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+        }
+
+        .signup-link a {
+            color: #800000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #800000;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+          background: rgba(51, 51, 51, 0.95);
+          color: #fff;
+          padding: 2rem 0 1rem 0;
+          margin-top: auto;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #f5d142;
+        }
+        .footer-col p, .footer-col ul li {
+            margin-bottom: 0.5rem;
+        }
+        .footer-col a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .footer-col a:hover {
+            text-decoration: underline;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .social-links a {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            .navbar .logo {
+                margin-bottom: 1rem;
+            }
+            .login-container {
+                margin: 1rem;
+            }
+            .social-login {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://i.ibb.co/WWHPvcJM/alum-forge-logo.jpg" alt="Alum Forge Logo">
+            <span>Alum Forge</span>
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html" class="active">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to your Alum Forge account</p>
+            </div>
+            
+            <div class="login-form">
+                <div class="message success" id="successMessage">
+                    Login successful! Redirecting...
+                </div>
+                
+                <div class="message error" id="errorMessage">
+                    Invalid credentials. Please try again.
+                </div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                        <div class="error-message" id="emailError">Please enter a valid email address</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                        <div class="error-message" id="passwordError">Password is required</div>
+                    </div>
+
+                    <div class="form-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember" name="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <a href="#" class="forgot-password" onclick="showForgotPassword()">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn" id="loginBtn">Sign In</button>
+                    
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>Signing you in...</p>
+                    </div>
+                </form>
+
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <div class="social-login">
+                    <a href="#" class="social-btn" onclick="socialLogin('google')">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </a>
+                    <a href="#" class="social-btn" onclick="socialLogin('linkedin')">
+                        <i class="fab fa-linkedin-in"></i>
+                        LinkedIn
+                    </a>
+                </div>
+
+                <div class="signup-link">
+                    Don't have an account? <a href="#" onclick="showSignup()">Sign up here</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Alum Forge</h4>
+                    <p>Fostering lifelong engagement and creating meaningful opportunities for our community.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Give Back</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><p>Patiala, Punjab, India</p></li>
+                        <li><a href="mailto:contact@alumforge.com">contact@alumforge.com</a></li>
+                        <li><a href="tel:+911234567890">+91 123 456 7890</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Alum Forge Alumni Association. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Login form handling
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            
+            // Clear previous errors
+            clearErrors();
+            
+            // Validate inputs
+            if (!validateEmail(email)) {
+                showError('email', 'Please enter a valid email address');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showError('password', 'Password must be at least 6 characters');
+                return;
+            }
+            
+            // Show loading
+            showLoading(true);
+            
+            // Simulate login process
+            setTimeout(() => {
+                // Demo credentials for testing
+                if (email === 'demo@alumforge.com' && password === 'password123') {
+                    // Store login state
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userEmail', email);
+                    if (remember) {
+                        localStorage.setItem('rememberMe', 'true');
+                    }
+                    
+                    showSuccess('Login successful! Redirecting to dashboard...');
+                    
+                    // Redirect to home page
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    showLoading(false);
+                    showError('general', 'Invalid email or password. Try demo@alumforge.com / password123');
+                }
+            }, 1500);
+        });
+        
+        // Email validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        // Show error message
+        function showError(field, message) {
+            if (field === 'general') {
+                const errorDiv = document.getElementById('errorMessage');
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            } else {
+                const input = document.getElementById(field);
+                const errorDiv = document.getElementById(field + 'Error');
+                input.classList.add('error');
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+            }
+        }
+        
+        // Clear all errors
+        function clearErrors() {
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.style.display = 'none';
+            });
+            document.querySelectorAll('input').forEach(input => {
+                input.classList.remove('error');
+            });
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+        
+        // Show success message
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+        
+        // Show/hide loading
+        function showLoading(show) {
+            const loading = document.getElementById('loading');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (show) {
+                loading.style.display = 'block';
+                loginBtn.disabled = true;
+                loginBtn.textContent = 'Signing In...';
+            } else {
+                loading.style.display = 'none';
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Sign In';
+            }
+        }
+        
+        // Social login
+        function socialLogin(provider) {
+            showLoading(true);
+            
+            setTimeout(() => {
+                showLoading(false);
+                alert(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login would be implemented here. For now, use demo@alumforge.com / password123`);
+            }, 1000);
+        }
+        
+        // Forgot password
+        function showForgotPassword() {
+            const email = prompt('Enter your email address to reset password:');
+            if (email && validateEmail(email)) {
+                alert('Password reset instructions have been sent to ' + email);
+            } else if (email) {
+                alert('Please enter a valid email address');
+            }
+        }
+        
+        // Show signup
+        function showSignup() {
+            alert('Sign up functionality would be implemented here. For now, use demo@alumforge.com / password123 to login');
+        }
+        
+        // Check if user is already logged in
+        window.addEventListener('load', function() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                const userEmail = localStorage.getItem('userEmail');
+                if (userEmail) {
+                    document.getElementById('email').value = userEmail;
+                    if (localStorage.getItem('rememberMe') === 'true') {
+                        document.getElementById('remember').checked = true;
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

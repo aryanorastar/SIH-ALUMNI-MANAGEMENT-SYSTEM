@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Alum Forge</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* Reset */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+          line-height: 1.6;
+          background-color: #fff;
+          color: #333;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navbar */
+        .navbar {
+          background-color: #800000; /* dark red */
+          color: #fff;
+          padding: 0.8rem 2rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+        }
+        
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar .logo img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+        }
+        
+        .navbar .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar ul {
+          list-style: none;
+          display: flex;
+          gap: 1.5rem;
+        }
+
+        .navbar ul li a {
+          color: #fff;
+          text-decoration: none;
+          font-weight: bold;
+        }
+
+        .navbar ul li a:hover {
+          text-decoration: underline;
+        }
+
+        .navbar ul li a.active {
+          text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #800000 0%, #a00000 100%);
+            color: #fff;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 0;
+        }
+
+        /* Mission Section */
+        .mission {
+            background: #f4f4f4;
+        }
+
+        .mission-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .mission-text h2 {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .mission-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Values Section */
+        .values {
+            background: #fff;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            background: #f4f4f4;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #800000;
+        }
+
+        .value-card i {
+            font-size: 3rem;
+            color: #800000;
+            margin-bottom: 1rem;
+        }
+
+        .value-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #800000;
+        }
+
+        /* Team Section */
+        .team {
+            background: #f4f4f4;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .team-member img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            object-fit: cover;
+        }
+
+        .team-member h3 {
+            color: #800000;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member .position {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: #800000;
+            color: #fff;
+        }
+
+        .stats h2 {
+            color: #fff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #f5d142;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: #f5d142;
+            color: #000;
+            text-align: center;
+        }
+
+        .cta h2 { 
+            color: #000; 
+        }
+
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #800000;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #600000;
+        }
+
+        /* Footer */
+        .footer {
+          background: #333;
+          color: #fff;
+          padding: 3rem 0 1rem 0;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #f5d142;
+        }
+        .footer-col p, .footer-col ul li {
+            margin-bottom: 0.5rem;
+        }
+        .footer-col a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .footer-col a:hover {
+            text-decoration: underline;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .social-links a {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            .navbar .logo {
+                margin-bottom: 1rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .mission-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .mission-text h2 {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://i.ibb.co/WWHPvcJM/alum-forge-logo.jpg" alt="Alum Forge Logo">
+            <span>Alum Forge</span>
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="container">
+                <h1>About Alum Forge</h1>
+                <p>Connecting generations of Thapar University alumni to create lasting impact and meaningful relationships.</p>
+            </div>
+        </section>
+
+        <!-- MISSION SECTION -->
+        <section class="mission">
+            <div class="container">
+                <div class="mission-content">
+                    <div class="mission-text">
+                        <h2>Our Mission</h2>
+                        <p>The Thapar alumni network is a global community of 25,000+ accomplished graduates, fostering excellence and connection through mentorship, events, and professional support. Alumni hold top roles worldwide as CEOs, engineers, scientists, and leaders, exemplifying Thapar’s legacy in academia and industry.</p>
+                        <p>Membership offers ongoing access to valuable professional connections and opportunities, empowering alumni to contribute to Thapar Institute’s growth and societal impact—advancing Thapar’s reputation for excellence in every sphere.</p>
+                    </div>
+                    <div class="mission-image">
+                        <img src="https://i.ibb.co/21MfzJ1W/thapar-university.jpg" alt="Thapar University Campus">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VALUES SECTION -->
+        <section class="values">
+            <div class="container">
+                <h2>Our Core Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Collaboration</h3>
+                        <p>We believe in the power of working together to achieve greater outcomes than any individual could accomplish alone.</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Excellence</h3>
+                        <p>We strive for excellence in everything we do, maintaining the high standards that Thapar University is known for.</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>Community</h3>
+                        <p>We foster a sense of belonging and mutual support that extends beyond graduation and throughout our careers.</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Innovation</h3>
+                        <p>We embrace new ideas and technologies to continuously improve how we connect and serve our alumni community.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATS SECTION -->
+        <section class="stats">
+            <div class="container">
+                <h2>Our Impact</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">15,000+</span>
+                        <span class="stat-label">Active Alumni</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Countries</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">200+</span>
+                        <span class="stat-label">Events Annually</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Satisfaction Rate</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEAM SECTION -->
+        <section class="team">
+            <div class="container">
+                <h2>Leadership Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="https://i.ibb.co/4fXvQ2L/team1.jpg" alt="Dr. Rajesh Kumar">
+                        <h3>Dr. Rajesh Kumar</h3>
+                        <div class="position">President & Founder</div>
+                        <p>Class of 1995, Computer Science. Former VP at Microsoft, passionate about connecting alumni across generations.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://i.ibb.co/8XvQ2L/team2.jpg" alt="Priya Sharma">
+                        <h3>Priya Sharma</h3>
+                        <div class="position">Vice President</div>
+                        <p>Class of 2005, Electronics. AI researcher and entrepreneur, leading our mentorship programs.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://i.ibb.co/9vXvQ2L/team3.jpg" alt="Amit Singh">
+                        <h3>Amit Singh</h3>
+                        <div class="position">Events Director</div>
+                        <p>Class of 2010, Mechanical. Event management expert, organizing our global alumni gatherings.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://i.ibb.co/7vXvQ2L/team4.jpg" alt="Neha Gupta">
+                        <h3>Neha Gupta</h3>
+                        <div class="position">Community Manager</div>
+                        <p>Class of 2015, Civil. Social media strategist, building our online community presence.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="cta">
+            <div class="container">
+                <h2>Join Our Community</h2>
+                <p>Be part of a network that values collaboration, excellence, and lifelong learning. Your journey with Thapar doesn't end at graduation.</p>
+                <a href="contact.html" class="btn" onclick="handleGetInTouch()">Get In Touch</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Alum Forge</h4>
+                    <p>Fostering lifelong engagement and creating meaningful opportunities for our community.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Give Back</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><p>Patiala, Punjab, India</p></li>
+                        <li><a href="mailto:contact@alumforge.com">contact@alumforge.com</a></li>
+                        <li><a href="tel:+911234567890">+91 123 456 7890</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Alum Forge Alumni Association. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Authentication check - redirect to login if not authenticated
+        window.addEventListener('load', function() {
+            // Check if user is logged in
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                // Show login required message
+                alert('Please login to access the Alum Forge website.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // User is logged in, proceed with normal functionality
+            const loginLink = document.querySelector('.navbar ul li a[href="login.html"]');
+            if (loginLink) {
+                const userEmail = localStorage.getItem('userEmail');
+                loginLink.textContent = 'Logout';
+                loginLink.href = '#';
+                loginLink.onclick = function(e) {
+                    e.preventDefault();
+                    logout();
+                };
+            }
+        });
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('rememberMe');
+                alert('You have been logged out successfully.');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Handle Get In Touch button
+        function handleGetInTouch() {
+            // User is already logged in (page wouldn't load otherwise)
+            const userEmail = localStorage.getItem('userEmail');
+            alert(`Welcome back, ${userEmail}! You can contact us through our contact page or email us directly at contact@alumforge.com`);
+        }
+    </script>
+
+</body>
+</html>

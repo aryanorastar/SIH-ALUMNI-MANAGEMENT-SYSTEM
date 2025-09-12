@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | Alum Forge</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* Reset */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+          line-height: 1.6;
+          background-color: #fff;
+          color: #333;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navbar */
+        .navbar {
+          background-color: #800000; /* dark red */
+          color: #fff;
+          padding: 0.8rem 2rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+        }
+        
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar .logo img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+        }
+        
+        .navbar .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar ul {
+          list-style: none;
+          display: flex;
+          gap: 1.5rem;
+        }
+
+        .navbar ul li a {
+          color: #fff;
+          text-decoration: none;
+          font-weight: bold;
+        }
+
+        .navbar ul li a:hover {
+          text-decoration: underline;
+        }
+
+        .navbar ul li a.active {
+          text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #800000 0%, #a00000 100%);
+            color: #fff;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 0;
+        }
+
+        /* Events Filter */
+        .events-filter {
+            background: #f4f4f4;
+            padding: 2rem 0;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #fff;
+            color: #800000;
+            border: 2px solid #800000;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #800000;
+            color: #fff;
+        }
+
+        /* Events Section */
+        .events {
+            background: #fff;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .event-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .event-image {
+            height: 200px;
+            background: linear-gradient(45deg, #800000, #a00000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 3rem;
+        }
+
+        .event-content {
+            padding: 1.5rem;
+        }
+
+        .event-date {
+            background: #800000;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .event-title {
+            font-size: 1.5rem;
+            color: #800000;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-location {
+            color: #666;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .event-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .event-type {
+            background: #f5d142;
+            color: #000;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .event-price {
+            font-weight: bold;
+            color: #800000;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #800000;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #600000;
+        }
+
+        .btn.secondary {
+            background: #f5d142;
+            color: #000;
+        }
+
+        .btn.secondary:hover {
+            background: #e0c030;
+        }
+
+        /* Upcoming Events */
+        .upcoming {
+            background: #f4f4f4;
+        }
+
+        .upcoming-events {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .upcoming-event {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            overflow: hidden;
+        }
+
+        .upcoming-date {
+            background: #800000;
+            color: #fff;
+            padding: 1.5rem;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .upcoming-date .month {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .upcoming-date .day {
+            font-size: 2rem;
+            font-weight: bold;
+            line-height: 1;
+            display: block;
+        }
+
+        .upcoming-details {
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .upcoming-details h3 {
+            color: #800000;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Past Events */
+        .past-events {
+            background: #fff;
+        }
+
+        .past-events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .past-event {
+            background: #f4f4f4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #800000;
+        }
+
+        .past-event h3 {
+            color: #800000;
+            margin-bottom: 0.5rem;
+        }
+
+        .past-event .date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: #800000;
+            color: #fff;
+            text-align: center;
+        }
+
+        .cta h2 { 
+            color: #fff; 
+        }
+
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .cta .btn {
+            background: #f5d142;
+            color: #000;
+        }
+
+        .cta .btn:hover {
+            background: #e0c030;
+        }
+
+        /* Footer */
+        .footer {
+          background: #333;
+          color: #fff;
+          padding: 3rem 0 1rem 0;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #f5d142;
+        }
+        .footer-col p, .footer-col ul li {
+            margin-bottom: 0.5rem;
+        }
+        .footer-col a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .footer-col a:hover {
+            text-decoration: underline;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .social-links a {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            .navbar .logo {
+                margin-bottom: 1rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .filter-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .upcoming-event {
+                flex-direction: column;
+            }
+            .upcoming-date {
+                border-radius: 8px 8px 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://i.ibb.co/WWHPvcJM/alum-forge-logo.jpg" alt="Alum Forge Logo">
+            <span>Alum Forge</span>
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="events.html" class="active">Events</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="container">
+                <h1>Events & Gatherings</h1>
+                <p>Join us for networking events, workshops, reunions, and professional development opportunities.</p>
+            </div>
+        </section>
+
+        <!-- EVENTS FILTER -->
+        <section class="events-filter">
+            <div class="container">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All Events</button>
+                    <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+                    <button class="filter-btn" data-filter="networking">Networking</button>
+                    <button class="filter-btn" data-filter="workshop">Workshops</button>
+                    <button class="filter-btn" data-filter="reunion">Reunions</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- UPCOMING EVENTS -->
+        <section class="upcoming">
+            <div class="container">
+                <h2>Upcoming Events</h2>
+                <div class="upcoming-events">
+                    <div class="upcoming-event">
+                        <div class="upcoming-date">
+                            <span class="month">Oct</span>
+                            <span class="day">25</span>
+                        </div>
+                        <div class="upcoming-details">
+                            <h3>Annual Alumni Gala 2025</h3>
+                            <p><i class="fas fa-map-marker-alt"></i> Hotel Taj, Patiala</p>
+                            <p>Join us for a night of celebration, networking, and reminiscing. Dress to impress!</p>
+                            <button class="btn">Register Now</button>
+                        </div>
+                    </div>
+                    <div class="upcoming-event">
+                        <div class="upcoming-date">
+                            <span class="month">Nov</span>
+                            <span class="day">12</span>
+                        </div>
+                        <div class="upcoming-details">
+                            <h3>Webinar: AI in Modern Workplace</h3>
+                            <p><i class="fas fa-video"></i> Online Event</p>
+                            <p>A virtual session with industry leader and alumnus, Priya Sharma.</p>
+                            <button class="btn">Join Webinar</button>
+                        </div>
+                    </div>
+                    <div class="upcoming-event">
+                        <div class="upcoming-date">
+                            <span class="month">Dec</span>
+                            <span class="day">08</span>
+                        </div>
+                        <div class="upcoming-details">
+                            <h3>Tech Startup Pitch Competition</h3>
+                            <p><i class="fas fa-map-marker-alt"></i> Thapar University Campus</p>
+                            <p>Support student entrepreneurs and discover the next big innovation.</p>
+                            <button class="btn">Attend Event</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ALL EVENTS -->
+        <section class="events">
+            <div class="container">
+                <h2>All Events</h2>
+                <div class="events-grid">
+                    <div class="event-card" data-category="upcoming networking">
+                        <div class="event-image">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date">Oct 25, 2025</div>
+                            <h3 class="event-title">Annual Alumni Gala 2025</h3>
+                            <div class="event-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Hotel Taj, Patiala
+                            </div>
+                            <p class="event-description">Join us for a night of celebration, networking, and reminiscing. Dress to impress!</p>
+                            <div class="event-meta">
+                                <span class="event-type">Networking</span>
+                                <span class="event-price">₹2,500</span>
+                            </div>
+                            <button class="btn">Register Now</button>
+                        </div>
+                    </div>
+
+                    <div class="event-card" data-category="upcoming workshop">
+                        <div class="event-image">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date">Nov 12, 2025</div>
+                            <h3 class="event-title">AI in Modern Workplace</h3>
+                            <div class="event-location">
+                                <i class="fas fa-video"></i>
+                                Online Event
+                            </div>
+                            <p class="event-description">A virtual session with industry leader and alumnus, Priya Sharma.</p>
+                            <div class="event-meta">
+                                <span class="event-type">Workshop</span>
+                                <span class="event-price">Free</span>
+                            </div>
+                            <button class="btn">Join Webinar</button>
+                        </div>
+                    </div>
+
+                    <div class="event-card" data-category="upcoming networking">
+                        <div class="event-image">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date">Dec 8, 2025</div>
+                            <h3 class="event-title">Tech Startup Pitch Competition</h3>
+                            <div class="event-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Thapar University Campus
+                            </div>
+                            <p class="event-description">Support student entrepreneurs and discover the next big innovation.</p>
+                            <div class="event-meta">
+                                <span class="event-type">Networking</span>
+                                <span class="event-price">Free</span>
+                            </div>
+                            <button class="btn">Attend Event</button>
+                        </div>
+                    </div>
+
+                    <div class="event-card" data-category="upcoming reunion">
+                        <div class="event-image">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date">Jan 15, 2026</div>
+                            <h3 class="event-title">Class of 2015 Reunion</h3>
+                            <div class="event-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Thapar University Campus
+                            </div>
+                            <p class="event-description">10-year reunion for the Class of 2015. Let's celebrate our journey together!</p>
+                            <div class="event-meta">
+                                <span class="event-type">Reunion</span>
+                                <span class="event-price">₹1,500</span>
+                            </div>
+                            <button class="btn">Register Now</button>
+                        </div>
+                    </div>
+
+                    <div class="event-card" data-category="upcoming workshop">
+                        <div class="event-image">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date">Feb 20, 2026</div>
+                            <h3 class="event-title">Leadership Workshop</h3>
+                            <div class="event-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Conference Center, Patiala
+                            </div>
+                            <p class="event-description">Develop your leadership skills with industry experts and fellow alumni.</p>
+                            <div class="event-meta">
+                                <span class="event-type">Workshop</span>
+                                <span class="event-price">₹3,000</span>
+                            </div>
+                            <button class="btn">Register Now</button>
+                        </div>
+                    </div>
+
+                    <div class="event-card" data-category="upcoming networking">
+                        <div class="event-image">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date">Mar 10, 2026</div>
+                            <h3 class="event-title">Industry Mixer</h3>
+                            <div class="event-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                The Grand Hotel, Delhi
+                            </div>
+                            <p class="event-description">Connect with alumni from various industries and expand your professional network.</p>
+                            <div class="event-meta">
+                                <span class="event-type">Networking</span>
+                                <span class="event-price">₹2,000</span>
+                            </div>
+                            <button class="btn">Register Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAST EVENTS -->
+        <section class="past-events">
+            <div class="container">
+                <h2>Past Events</h2>
+                <div class="past-events-grid">
+                    <div class="past-event">
+                        <h3>Summer Networking Mixer 2024</h3>
+                        <div class="date">August 15, 2024</div>
+                        <p>Successful networking event with 200+ attendees</p>
+                    </div>
+                    <div class="past-event">
+                        <h3>Tech Innovation Summit</h3>
+                        <div class="date">July 20, 2024</div>
+                        <p>Showcasing latest technological advancements</p>
+                    </div>
+                    <div class="past-event">
+                        <h3>Alumni Sports Day</h3>
+                        <div class="date">June 10, 2024</div>
+                        <p>Friendly competition and team building activities</p>
+                    </div>
+                    <div class="past-event">
+                        <h3>Career Guidance Workshop</h3>
+                        <div class="date">May 25, 2024</div>
+                        <p>Helping students with career planning and development</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="cta">
+            <div class="container">
+                <h2>Don't Miss Out!</h2>
+                <p>Stay updated with our latest events and never miss an opportunity to connect with your fellow alumni.</p>
+                <a href="contact.html" class="btn">Subscribe to Updates</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Alum Forge</h4>
+                    <p>Fostering lifelong engagement and creating meaningful opportunities for our community.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Give Back</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><p>Patiala, Punjab, India</p></li>
+                        <li><a href="mailto:contact@alumforge.com">contact@alumforge.com</a></li>
+                        <li><a href="tel:+911234567890">+91 123 456 7890</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Alum Forge Alumni Association. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Authentication check - redirect to login if not authenticated
+        window.addEventListener('load', function() {
+            // Check if user is logged in
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                // Show login required message
+                alert('Please login to access the Alum Forge website.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // User is logged in, proceed with normal functionality
+            const loginLink = document.querySelector('.navbar ul li a[href="login.html"]');
+            if (loginLink) {
+                const userEmail = localStorage.getItem('userEmail');
+                loginLink.textContent = 'Logout';
+                loginLink.href = '#';
+                loginLink.onclick = function(e) {
+                    e.preventDefault();
+                    logout();
+                };
+            }
+
+            // Initialize event functionality
+            initializeEvents();
+        });
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('rememberMe');
+                alert('You have been logged out successfully.');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function initializeEvents() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const eventCards = document.querySelectorAll('.event-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+
+                    eventCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category').includes(filter)) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Add click handlers to all event buttons
+            document.querySelectorAll('.btn').forEach(btn => {
+                if (btn.textContent.includes('Register') || btn.textContent.includes('Join') || btn.textContent.includes('Attend')) {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const eventName = this.closest('.event-card')?.querySelector('.event-title')?.textContent || 
+                                        this.closest('.upcoming-details')?.querySelector('h3')?.textContent || 
+                                        'Event';
+                        registerEvent(eventName);
+                    });
+                }
+            });
+        }
+
+        // Event registration function
+        function registerEvent(eventName) {
+            // User is already logged in (page wouldn't load otherwise)
+            alert(`Successfully registered for: ${eventName}\n\nYou will receive a confirmation email shortly.`);
+        }
+    </script>
+
+</body>
+</html>
