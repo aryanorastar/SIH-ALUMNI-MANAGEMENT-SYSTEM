@@ -180,21 +180,7 @@ This project is licensed under the terms found in the LICENSE file. See the LICE
 
 ## 👥 Team
 
-Developed as part of the Smart India Hackathon (SIH) initiative by the project team at aryanorastar.
-
-## 📞 Support & Contact
-
-For support, questions, or feedback:
-- Visit the Contact page within the application
-- Check the About page for more information
-- Refer to the LICENSE file for legal information
-
-## 🙏 Acknowledgments
-
-- Built for the Smart India Hackathon initiative
-- Designed to enhance alumni engagement and institutional connection
-- Community-focused development approach
-
+Developed as part of the Smart India Hackathon (SIH) .
 ---
 
 **Last Updated**: 2026-03-12
