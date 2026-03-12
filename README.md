@@ -183,4 +183,3 @@ This project is licensed under the terms found in the LICENSE file. See the LICE
 Developed as part of the Smart India Hackathon (SIH) .
 ---
 
-**Last Updated**: 2026-03-12
