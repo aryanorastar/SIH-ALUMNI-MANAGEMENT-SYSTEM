@@ -178,8 +178,5 @@ When deploying to production:
 
 This project is licensed under the terms found in the LICENSE file. See the LICENSE file for details.
 
-## 👥 Team
-
-Developed as part of the Smart India Hackathon (SIH) .
 ---
 
